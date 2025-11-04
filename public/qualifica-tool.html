@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiesta Prestito - Raccolta Dati</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .phase {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .phase-title {
+            font-size: 24px;
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phase-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .radio-label,
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+
+        .financing-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .financing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .add-btn:hover {
+            background: #218838;
+        }
+
+        .document-checklist {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .doc-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .progress-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .progress-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .progress-circle.completed {
+            background: #28a745;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .phase {
+                padding: 20px 15px;
+            }
+        }
+
+        .print-document {
+            display: none;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .submit-section,
+            .progress-indicator,
+            .add-btn,
+            .remove-btn {
+                display: none !important;
+            }
+
+            .phase {
+                page-break-inside: avoid;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .guarantor-section {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Richiesta Prestito Personale</h1>
+            <p>Procedura completa di raccolta dati e documentazione</p>
+        </div>
+
+        <div class="content">
+            <div class="progress-indicator">
+                <div class="progress-item">
+                    <div class="progress-circle" id="progress-1">1</div>
+                    <small>Verifica</small>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-circle" id="progress-2">2</div>
+                    <small>Reddito</small>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-circle" id="progress-3">3</div>
+                    <small>Dati</small>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-circle" id="progress-4">4</div>
+                    <small>Documenti</small>
+                </div>
+            </div>
+
+            <!-- FASE 1 -->
+            <div class="phase">
+                <div class="phase-title">
+                    <span class="phase-number">1</span>
+                    <span>Verifica Preliminare</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Hai già finanziamenti in corso?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="hasFinancing" value="mai" required>
+                            Mai avuto
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="hasFinancing" value="si" required>
+                            Sì
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="hasFinancing" value="no" required>
+                            No (estinti)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="alert alert-danger" id="alert-mai-finanziamenti">
+                    ⚠️ <strong>Non procedibile:</strong> Cliente non censito. Possibile valutare Cessione del Quinto se dipendente/pensionato.
+                </div>
+
+                <div class="form-group">
+                    <label>Sempre tutto regolarmente pagato?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="regularPayments" value="si" required>
+                            Sì
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="regularPayments" value="no" required>
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Hai acceso finanziamenti recentemente?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="recentFinancing" value="no" required>
+                            No
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="recentFinancing" value="ultimi6" required>
+                            Sì, ultimi 6 mesi
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="recentFinancing" value="oltre6" required>
+                            Sì, oltre 6 mesi fa
+                        </label>
+                    </div>
+                </div>
+
+                <div class="alert alert-danger" id="alert-ultimi-6-mesi">
+                    ⚠️ <strong>Non procedibile:</strong> Finanziamento acceso negli ultimi 6 mesi.
+                </div>
+
+                <div class="form-group">
+                    <label>Hai richiesto finanziamenti recentemente? (anche online, anche se respinti)</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="recentRequests" value="no" required>
+                            No
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="recentRequests" value="si" required>
+                            Sì
+                        </label>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning" id="alert-richieste-recenti">
+                    ⚠️ Verificare richieste online anche con solo CF inserito, senza esito visibile.
+                </div>
+            </div>
+
+            <!-- FASE 2 -->
+            <div class="phase">
+                <div class="phase-title">
+                    <span class="phase-number">2</span>
+                    <span>Valutazione Occupazionale e Reddito</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo di contratto</label>
+                    <select name="contractType" required>
+                        <option value="">Seleziona...</option>
+                        <option value="indeterminato-privato">Tempo indeterminato - Privato</option>
+                        <option value="indeterminato-pubblico">Tempo indeterminato - Pubblico</option>
+                        <option value="determinato">Tempo determinato</option>
+                        <option value="autonomo">Lavoratore autonomo</option>
+                        <option value="libero-professionista">Libero professionista</option>
+                        <option value="pensionato">Pensionato</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Anzianità lavorativa (mesi)</label>
+                    <input type="number" name="workSeniority" min="0" required>
+                </div>
+
+                <div class="alert alert-warning" id="alert-anzianita">
+                    ⚠️ Anzianità inferiore a 6 mesi: verificare procedibilità.
+                </div>
+
+                <div class="form-group">
+                    <label>Protesti o segnalazioni negative?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="protests" value="no" required>
+                            No
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="protests" value="si" required>
+                            Sì
+                        </label>
+                    </div>
+                </div>
+
+                <div class="alert alert-danger" id="alert-protesti">
+                    ⚠️ <strong>Non procedibile:</strong> Presenza di protesti o segnalazioni negative.
+                </div>
+
+                <div class="form-group">
+                    <label>Reddito netto mensile (€)</label>
+                    <input type="number" name="monthlyIncome" min="0" step="0.01" required>
+                </div>
+
+                <div class="alert alert-warning" id="alert-reddito-basso">
+                    ⚠️ Reddito inferiore a €1.200: verificare soglia di povertà.
+                </div>
+            </div>
+
+            <!-- FASE 3 -->
+            <div class="phase">
+                <div class="phase-title">
+                    <span class="phase-number">3</span>
+                    <span>Range Rata Mensile Preferito</span>
+                </div>
+
+                <div class="alert alert-info" style="display: block;">
+                    ℹ️ Il range selezionato è indicativo. L'importo esatto sarà determinato dalla consulente creditizia.
+                </div>
+
+                <div class="form-group">
+                    <label>Seleziona il range di rata preferito</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="installmentRange" value="100-200" required>
+                            €100 - €200
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="installmentRange" value="200-350" required>
+                            €200 - €350
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="installmentRange" value="350-500" required>
+                            €350 - €500
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="installmentRange" value="500+" required>
+                            €500+
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FASE 4 -->
+            <div class="phase">
+                <div class="phase-title">
+                    <span class="phase-number">4</span>
+                    <span>Dati Cliente (Scheda Intervista)</span>
+                </div>
+
+                <h3 style="margin-bottom: 20px; color: #667eea;">👤 Dati Cliente</h3>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Nome e Cognome *</label>
+                        <input type="text" name="clientName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cellulare *</label>
+                        <input type="tel" name="clientPhone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="clientEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Residenza conforme a documento?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="residenceMatch" value="si" required>
+                            Sì
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="residenceMatch" value="no" required>
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group hidden" id="newResidenceGroup">
+                    <label>Nuova residenza e data cambio</label>
+                    <input type="text" name="newResidence" placeholder="Indirizzo completo">
+                    <input type="text" name="residenceSince" placeholder="Da quando (es. 01/2024)" style="margin-top: 10px;">
+                </div>
+
+                <div class="form-group">
+                    <label>Indirizzo di residenza completo *</label>
+                    <input type="text" name="clientAddress" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Casa di proprietà?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="homeOwnership" value="proprieta" required>
+                            Proprietà
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="homeOwnership" value="affitto" required>
+                            Affitto
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="homeOwnership" value="altro" required>
+                            Altro
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group hidden" id="mortgageGroup">
+                    <label>Mutuo attivo? Costo mensile (€)</label>
+                    <input type="number" name="mortgageCost" min="0" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group hidden" id="rentGroup">
+                    <label>Costo affitto mensile (€) *</label>
+                    <input type="number" name="rentCost" min="0" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Stato civile *</label>
+                        <select name="maritalStatus" required>
+                            <option value="">Seleziona...</option>
+                            <option value="celibe-nubile">Celibe/Nubile</option>
+                            <option value="coniugato">Coniugato/a</option>
+                            <option value="divorziato">Divorziato/a</option>
+                            <option value="vedovo">Vedovo/a</option>
+                            <option value="separato">Separato/a</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>N° componenti nucleo familiare *</label>
+                        <input type="number" name="familyMembers" min="1" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>N° componenti che lavorano *</label>
+                    <input type="number" name="workingMembers" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Redditi aggiuntivi dimostrabili</label>
+                    <textarea name="additionalIncome" rows="3" placeholder="Es: affitti, pensioni, collaborazioni..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>IBAN *</label>
+                    <input type="text" name="iban" placeholder="IT__________" pattern="IT[0-9]{2}[A-Z0-9]+" required>
+                </div>
+
+                <div class="guarantor-section" id="guarantorSection" style="display: none;">
+                    <h3 style="margin-bottom: 20px; color: #856404;">🤝 Dati Garante (Coobbligato)</h3>
+                    <p style="margin-bottom: 20px; font-size: 14px;">Garante richiesto per questo profilo cliente.</p>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Nome e Cognome Garante</label>
+                            <input type="text" name="guarantorName">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cellulare Garante</label>
+                            <input type="tel" name="guarantorPhone">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Garante</label>
+                        <input type="email" name="guarantorEmail">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Residenza Garante</label>
+                        <input type="text" name="guarantorAddress">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Reddito mensile Garante (€)</label>
+                        <input type="number" name="guarantorIncome" min="0" step="0.01">
+                    </div>
+                </div>
+            </div>
+
+            <!-- FASE 5 -->
+            <div class="phase">
+                <div class="phase-title">
+                    <span class="phase-number">5</span>
+                    <span>Impegni Finanziari in Corso</span>
+                </div>
+
+                <div id="financingContainer">
+                    <!-- I finanziamenti verranno aggiunti dinamicamente -->
+                </div>
+
+                <button type="button" class="add-btn" id="addFinancing" onclick="addFinancing()">
+                    ➕ Aggiungi Finanziamento
+                </button>
+
+                <div class="form-group" style="margin-top: 30px;">
+                    <label>Importo totale richiesto (€) *</label>
+                    <input type="number" name="totalAmount" min="0" step="0.01" required>
+                </div>
+            </div>
+
+            <!-- FASE 6 -->
+            <div class="phase">
+                <div class="phase-title">
+                    <span class="phase-number">6</span>
+                    <span>Documenti da Fornire</span>
+                </div>
+
+                <div class="document-checklist" id="documentChecklist">
+                    <!-- I documenti verranno mostrati in base al tipo di contratto -->
+                </div>
+            </div>
+
+            <!-- SUBMIT SECTION -->
+            <div class="submit-section">
+                <h3 style="margin-bottom: 15px;">📄 Riepilogo e Invio</h3>
+                <p style="margin-bottom: 25px; color: #666;">
+                    Verifica che tutti i campi siano compilati e i documenti spuntati prima di generare il documento.
+                </p>
+                <div id="completionStatus" style="margin-bottom: 20px; color: #dc3545; font-weight: bold;"></div>
+                <button type="button" class="submit-btn" id="generateBtn" onclick="generateDocument()" disabled>
+                    📋 Genera Documento Stampabile
+                </button>
+                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                    ℹ️ Il cliente verrà chiamato dalla consulente creditizia per definire rata precisa e ulteriori informazioni.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let financingCount = 0;
+        const MAX_FINANCING = 4;
+
+        // Gestione alert condizionali
+        document.querySelectorAll('input[name="hasFinancing"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const alert = document.getElementById('alert-mai-finanziamenti');
+                alert.style.display = this.value === 'mai' ? 'block' : 'none';
+                checkGuarantorNeed();
+            });
+        });
+
+        document.querySelectorAll('input[name="recentFinancing"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const alert = document.getElementById('alert-ultimi-6-mesi');
+                alert.style.display = this.value === 'ultimi6' ? 'block' : 'none';
+            });
+        });
+
+        document.querySelectorAll('input[name="recentRequests"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const alert = document.getElementById('alert-richieste-recenti');
+                alert.style.display = this.value === 'si' ? 'block' : 'none';
+            });
+        });
+
+        document.querySelector('input[name="workSeniority"]').addEventListener('input', function() {
+            const alert = document.getElementById('alert-anzianita');
+            alert.style.display = this.value < 6 ? 'block' : 'none';
+            checkGuarantorNeed();
+        });
+
+        document.querySelectorAll('input[name="protests"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const alert = document.getElementById('alert-protesti');
+                alert.style.display = this.value === 'si' ? 'block' : 'none';
+            });
+        });
+
+        document.querySelector('input[name="monthlyIncome"]').addEventListener('input', function() {
+            const alert = document.getElementById('alert-reddito-basso');
+            alert.style.display = this.value < 1200 ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('input[name="residenceMatch"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const group = document.getElementById('newResidenceGroup');
+                group.classList.toggle('hidden', this.value === 'si');
+            });
+        });
+
+        document.querySelectorAll('input[name="homeOwnership"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const mortgageGroup = document.getElementById('mortgageGroup');
+                const rentGroup = document.getElementById('rentGroup');
+
+                mortgageGroup.classList.add('hidden');
+                rentGroup.classList.add('hidden');
+
+                if (this.value === 'proprieta') {
+                    mortgageGroup.classList.remove('hidden');
+                } else if (this.value === 'affitto') {
+                    rentGroup.classList.remove('hidden');
+                }
+            });
+        });
+
+        // Gestione documenti in base al contratto
+        document.querySelector('select[name="contractType"]').addEventListener('change', function() {
+            updateDocumentChecklist(this.value);
+            checkGuarantorNeed();
+        });
+
+        function updateDocumentChecklist(contractType) {
+            const checklist = document.getElementById('documentChecklist');
+            let documents = [];
+
+            switch(contractType) {
+                case 'indeterminato-privato':
+                    documents = [
+                        "Carta d'identità fronte/retro",
+                        'Codice fiscale fronte/retro',
+                        'CUD (se disponibile)',
+                        'Ultima busta paga'
+                    ];
+                    break;
+                case 'indeterminato-pubblico':
+                    documents = [
+                        "Carta d'identità fronte/retro",
+                        'Codice fiscale fronte/retro',
+                        'CUD (se disponibile)',
+                        'Ultima busta paga',
+                        'Data assunzione a ruolo'
+                    ];
+                    break;
+                case 'determinato':
+                    documents = [
+                        "Carta d'identità fronte/retro",
+                        'Codice fiscale fronte/retro',
+                        'CUD (se disponibile)',
+                        'Ultima busta paga',
+                        'Contratto di lavoro (durata)'
+                    ];
+                    break;
+                case 'autonomo':
+                case 'libero-professionista':
+                    documents = [
+                        "Carta d'identità fronte/retro",
+                        'Codice fiscale fronte/retro',
+                        'Visura camerale',
+                        'Attestazione P.IVA',
+                        'Ultimi 2 Modelli Unici con ricevute telematiche',
+                        'Ultimi 3 estratti conto (con accrediti dimostrabili)',
+                        'Utenza intestata (luce/gas/acqua)',
+                        'Scheda intervista cliente',
+                        'IBAN (NO carte prepagate/Postepay)'
+                    ];
+                    break;
+                case 'pensionato':
+                    documents = [
+                        "Carta d'identità fronte/retro",
+                        'Codice fiscale fronte/retro',
+                        'CUD pensione',
+                        'Ultimo cedolino pensione'
+                    ];
+                    break;
+                default:
+                    documents = [];
+            }
+
+            checklist.innerHTML = '';
+            if (documents.length > 0) {
+                documents.forEach((doc, index) => {
+                    const docItem = document.createElement('div');
+                    docItem.className = 'doc-item';
+                    docItem.innerHTML = `
+                        <input type="checkbox" id="doc-${index}" name="doc-${index}" onchange="checkCompletion()">
+                        <label for="doc-${index}" style="margin: 0; cursor: pointer;">${doc}</label>
+                    `;
+                    checklist.appendChild(docItem);
+                });
+            } else {
+                checklist.innerHTML = '<p style="color: #666;">Seleziona un tipo di contratto per vedere i documenti necessari.</p>';
+            }
+
+            checkCompletion();
+        }
+
+        function addFinancing() {
+            if (financingCount >= MAX_FINANCING) {
+                alert('Massimo 4 finanziamenti.');
+                return;
+            }
+
+            financingCount++;
+            const container = document.getElementById('financingContainer');
+            const financingItem = document.createElement('div');
+            financingItem.className = 'financing-item';
+            financingItem.id = `financing-${financingCount}`;
+
+            financingItem.innerHTML = `
+                <div class="financing-header">
+                    <h4>💳 Finanziamento ${financingCount}</h4>
+                    <button type="button" class="remove-btn" onclick="removeFinancing(${financingCount})">🗑️ Rimuovi</button>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Rata mensile (€)</label>
+                        <input type="number" name="fin${financingCount}-installment" min="0" step="0.01" onchange="checkCompletion()">
+                    </div>
+                    <div class="form-group">
+                        <label>Importo iniziale (€)</label>
+                        <input type="number" name="fin${financingCount}-amount" min="0" step="0.01" onchange="checkCompletion()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Società erogante</label>
+                    <input type="text" name="fin${financingCount}-company" onchange="checkCompletion()">
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Data inizio</label>
+                        <input type="text" name="fin${financingCount}-start" placeholder="MM/AAAA" onchange="checkCompletion()">
+                    </div>
+                    <div class="form-group">
+                        <label>Data fine</label>
+                        <input type="text" name="fin${financingCount}-end" placeholder="MM/AAAA" onchange="checkCompletion()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Estinzione stimata (€)</label>
+                    <input type="number" name="fin${financingCount}-payoff" min="0" step="0.01" onchange="checkCompletion()">
+                </div>
+            `;
+
+            container.appendChild(financingItem);
+            checkCompletion();
+        }
+
+        function removeFinancing(id) {
+            const item = document.getElementById(`financing-${id}`);
+            if (item) {
+                item.remove();
+                financingCount--;
+                checkCompletion();
+            }
+        }
+
+        function checkGuarantorNeed() {
+            const hasFinancing = document.querySelector('input[name="hasFinancing"]:checked');
+            const contractType = document.querySelector('select[name="contractType"]').value;
+            const workSeniority = parseInt(document.querySelector('input[name="workSeniority"]').value) || 0;
+            const guarantorSection = document.getElementById('guarantorSection');
+
+            let needsGuarantor = false;
+
+            // Cliente non censito
+            if (hasFinancing && hasFinancing.value === 'mai') {
+                needsGuarantor = true;
+            }
+
+            // Dipendente privato < 24 mesi
+            if (contractType === 'indeterminato-privato' && workSeniority < 24) {
+                needsGuarantor = true;
+            }
+
+            // Dipendente pubblico < 12 mesi
+            if (contractType === 'indeterminato-pubblico' && workSeniority < 12) {
+                needsGuarantor = true;
+            }
+
+            // Autonomi < 24 mesi
+            if ((contractType === 'autonomo' || contractType === 'libero-professionista') && workSeniority < 24) {
+                needsGuarantor = true;
+            }
+
+            guarantorSection.style.display = needsGuarantor ? 'block' : 'none';
+        }
+
+        function checkCompletion() {
+            const form = document.querySelector('.container');
+            const requiredInputs = form.querySelectorAll('input[required], select[required]');
+            const documentCheckboxes = form.querySelectorAll('#documentChecklist input[type="checkbox"]');
+            const generateBtn = document.getElementById('generateBtn');
+            const statusDiv = document.getElementById('completionStatus');
+
+            let allFilled = true;
+            let allDocsChecked = true;
+            let missingFields = [];
+
+            // Verifica campi obbligatori
+            requiredInputs.forEach(input => {
+                if (input.type === 'radio') {
+                    const radioGroup = form.querySelectorAll(`input[name="${input.name}"]`);
+                    const checked = Array.from(radioGroup).some(r => r.checked);
+                    if (!checked) {
+                        allFilled = false;
+                        if (!missingFields.includes(input.name)) {
+                            missingFields.push(input.name);
+                        }
+                    }
+                } else if (!input.value.trim()) {
+                    allFilled = false;
+                    missingFields.push(input.name);
+                }
+            });
+
+            // Verifica documenti
+            if (documentCheckboxes.length > 0) {
+                allDocsChecked = Array.from(documentCheckboxes).every(cb => cb.checked);
+            }
+
+            // Aggiorna progress indicators
+            updateProgress('progress-1', document.querySelector('input[name="hasFinancing"]:checked') !== null);
+            updateProgress('progress-2', document.querySelector('select[name="contractType"]').value !== '');
+            updateProgress('progress-3', document.querySelector('input[name="clientName"]').value !== '');
+            updateProgress('progress-4', allDocsChecked);
+
+            // Aggiorna stato e bottone
+            if (allFilled && allDocsChecked) {
+                generateBtn.disabled = false;
+                statusDiv.textContent = '✅ Tutti i dati compilati. Pronto per generare il documento.';
+                statusDiv.style.color = '#28a745';
+            } else {
+                generateBtn.disabled = true;
+                let message = '⚠️ ';
+                if (!allFilled) message += 'Compila tutti i campi obbligatori. ';
+                if (!allDocsChecked) message += 'Spunta tutti i documenti richiesti.';
+                statusDiv.textContent = message;
+                statusDiv.style.color = '#dc3545';
+            }
+        }
+
+        function updateProgress(id, completed) {
+            const circle = document.getElementById(id);
+            if (completed) {
+                circle.classList.add('completed');
+            } else {
+                circle.classList.remove('completed');
+            }
+        }
+
+        function generateDocument() {
+            if (!confirm('Generare il documento stampabile con tutti i dati inseriti?')) {
+                return;
+            }
+
+            // Raccolta dati
+            const formData = {};
+            const form = document.querySelector('.container');
+
+            // Inputs text, email, tel, number
+            form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select').forEach(input => {
+                if (input.name) {
+                    formData[input.name] = input.value;
+                }
+            });
+
+            // Radio buttons
+            form.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+                formData[radio.name] = radio.value;
+            });
+
+            // Documenti
+            const docs = [];
+            form.querySelectorAll('#documentChecklist input[type="checkbox"]:checked').forEach(cb => {
+                const label = form.querySelector(`label[for="${cb.id}"]`);
+                if (label) {
+                    docs.push(label.textContent);
+                }
+            });
+
+            // Finanziamenti
+            const financings = [];
+            for (let i = 1; i <= financingCount; i++) {
+                const finItem = document.getElementById(`financing-${i}`);
+                if (finItem) {
+                    financings.push({
+                        installment: form.querySelector(`input[name="fin${i}-installment"]`)?.value || '',
+                        amount: form.querySelector(`input[name="fin${i}-amount"]`)?.value || '',
+                        company: form.querySelector(`input[name="fin${i}-company"]`)?.value || '',
+                        start: form.querySelector(`input[name="fin${i}-start"]`)?.value || '',
+                        end: form.querySelector(`input[name="fin${i}-end"]`)?.value || '',
+                        payoff: form.querySelector(`input[name="fin${i}-payoff"]`)?.value || ''
+                    });
+                }
+            }
+
+            // Crea documento stampabile
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richiesta Prestito - ${formData.clientName}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #667eea;
+            margin-top: 30px;
+            border-left: 5px solid #667eea;
+            padding-left: 15px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        .field {
+            margin: 10px 0;
+        }
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+        .value {
+            color: #555;
+            margin-left: 10px;
+        }
+        .alert {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+        .financing-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+        }
+        ul {
+            margin: 10px 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #667eea;
+            text-align: center;
+            color: #666;
+        }
+        @media print {
+            body { padding: 10px; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <h1>📋 RICHIESTA PRESTITO PERSONALE</h1>
+    <p style="text-align: center; color: #666;">Data compilazione: ${new Date().toLocaleDateString('it-IT')}</p>
+
+    <h2>1️⃣ Verifica Preliminare</h2>
+    <div class="section">
+        <div class="field">
+            <span class="label">Finanziamenti in corso:</span>
+            <span class="value">${getLabel('hasFinancing', formData.hasFinancing)}</span>
+        </div>
+        <div class="field">
+            <span class="label">Pagamenti regolari:</span>
+            <span class="value">${formData.regularPayments === 'si' ? 'Sì' : 'No'}</span>
+        </div>
+        <div class="field">
+            <span class="label">Finanziamenti recenti:</span>
+            <span class="value">${getLabel('recentFinancing', formData.recentFinancing)}</span>
+        </div>
+        <div class="field">
+            <span class="label">Richieste recenti:</span>
+            <span class="value">${formData.recentRequests === 'si' ? 'Sì' : 'No'}</span>
+        </div>
+    </div>
+
+    <h2>2️⃣ Dati Occupazionali e Reddito</h2>
+    <div class="section">
+        <div class="field">
+            <span class="label">Tipo contratto:</span>
+            <span class="value">${getContractLabel(formData.contractType)}</span>
+        </div>
+        <div class="field">
+            <span class="label">Anzianità lavorativa:</span>
+            <span class="value">${formData.workSeniority} mesi</span>
+        </div>
+        <div class="field">
+            <span class="label">Protesti/segnalazioni:</span>
+            <span class="value">${formData.protests === 'si' ? 'Sì' : 'No'}</span>
+        </div>
+        <div class="field">
+            <span class="label">Reddito netto mensile:</span>
+            <span class="value">€ ${parseFloat(formData.monthlyIncome || 0).toFixed(2)}</span>
+        </div>
+    </div>
+
+    <h2>3️⃣ Range Rata Preferito</h2>
+    <div class="section">
+        <div class="field">
+            <span class="label">Fascia indicativa:</span>
+            <span class="value">€ ${formData.installmentRange}</span>
+        </div>
+        <div class="alert">
+            ℹ️ Importo indicativo. La rata esatta sarà definita dalla consulente creditizia.
+        </div>
+    </div>
+
+    <h2>4️⃣ Dati Anagrafici Cliente</h2>
+    <div class="section">
+        <div class="row">
+            <div class="field">
+                <span class="label">Nome e Cognome:</span>
+                <span class="value">${formData.clientName}</span>
+            </div>
+            <div class="field">
+                <span class="label">Cellulare:</span>
+                <span class="value">${formData.clientPhone}</span>
+            </div>
+        </div>
+        <div class="field">
+            <span class="label">Email:</span>
+            <span class="value">${formData.clientEmail}</span>
+        </div>
+        <div class="field">
+            <span class="label">Residenza:</span>
+            <span class="value">${formData.clientAddress}</span>
+        </div>
+        <div class="field">
+            <span class="label">Residenza conforme:</span>
+            <span class="value">${formData.residenceMatch === 'si' ? 'Sì' : 'No'}</span>
+        </div>
+        ${formData.residenceMatch === 'no' ? `
+        <div class="field">
+            <span class="label">Nuova residenza:</span>
+            <span class="value">${formData.newResidence || ''} (dal ${formData.residenceSince || ''})</span>
+        </div>
+        ` : ''}
+        <div class="row">
+            <div class="field">
+                <span class="label">Stato civile:</span>
+                <span class="value">${getMaritalLabel(formData.maritalStatus)}</span>
+            </div>
+            <div class="field">
+                <span class="label">Casa:</span>
+                <span class="value">${getHomeLabel(formData.homeOwnership)}</span>
+            </div>
+        </div>
+        ${formData.homeOwnership === 'proprieta' && formData.mortgageCost ? `
+        <div class="field">
+            <span class="label">Mutuo mensile:</span>
+            <span class="value">€ ${parseFloat(formData.mortgageCost).toFixed(2)}</span>
+        </div>
+        ` : ''}
+        ${formData.homeOwnership === 'affitto' ? `
+        <div class="field">
+            <span class="label">Affitto mensile:</span>
+            <span class="value">€ ${parseFloat(formData.rentCost || 0).toFixed(2)}</span>
+        </div>
+        ` : ''}
+        <div class="row">
+            <div class="field">
+                <span class="label">Nucleo familiare:</span>
+                <span class="value">${formData.familyMembers} persone (${formData.workingMembers} lavorano)</span>
+            </div>
+            <div class="field">
+                <span class="label">IBAN:</span>
+                <span class="value">${formData.iban}</span>
+            </div>
+        </div>
+        ${formData.additionalIncome ? `
+        <div class="field">
+            <span class="label">Redditi aggiuntivi:</span>
+            <span class="value">${formData.additionalIncome}</span>
+        </div>
+        ` : ''}
+    </div>
+
+    ${formData.guarantorName ? `
+    <h2>🤝 Dati Garante (Coobbligato)</h2>
+    <div class="section" style="background: #fff3cd;">
+        <div class="row">
+            <div class="field">
+                <span class="label">Nome:</span>
+                <span class="value">${formData.guarantorName}</span>
+            </div>
+            <div class="field">
+                <span class="label">Telefono:</span>
+                <span class="value">${formData.guarantorPhone || ''}</span>
+            </div>
+        </div>
+        <div class="field">
+            <span class="label">Email:</span>
+            <span class="value">${formData.guarantorEmail || ''}</span>
+        </div>
+        <div class="field">
+            <span class="label">Residenza:</span>
+            <span class="value">${formData.guarantorAddress || ''}</span>
+        </div>
+        <div class="field">
+            <span class="label">Reddito mensile:</span>
+            <span class="value">€ ${parseFloat(formData.guarantorIncome || 0).toFixed(2)}</span>
+        </div>
+    </div>
+    ` : ''}
+
+    <h2>5️⃣ Impegni Finanziari in Corso</h2>
+    <div class="section">
+        ${financings.length > 0 ? financings.map((fin, index) => `
+        <div class="financing-item">
+            <h4>Finanziamento ${index + 1}</h4>
+            <div class="row">
+                <div class="field">
+                    <span class="label">Rata mensile:</span>
+                    <span class="value">€ ${parseFloat(fin.installment || 0).toFixed(2)}</span>
+                </div>
+                <div class="field">
+                    <span class="label">Importo iniziale:</span>
+                    <span class="value">€ ${parseFloat(fin.amount || 0).toFixed(2)}</span>
+                </div>
+            </div>
+            <div class="field">
+                <span class="label">Società:</span>
+                <span class="value">${fin.company}</span>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <span class="label">Periodo:</span>
+                    <span class="value">${fin.start} - ${fin.end}</span>
+                </div>
+                <div class="field">
+                    <span class="label">Estinzione:</span>
+                    <span class="value">€ ${parseFloat(fin.payoff || 0).toFixed(2)}</span>
+                </div>
+            </div>
+        </div>
+        `).join('') : '<p>Nessun finanziamento in corso</p>'}
+
+        <div class="field" style="margin-top: 20px; font-size: 18px;">
+            <span class="label">IMPORTO TOTALE RICHIESTO:</span>
+            <span class="value" style="font-weight: bold; color: #667eea;">€ ${parseFloat(formData.totalAmount || 0).toFixed(2)}</span>
+        </div>
+    </div>
+
+    <h2>6️⃣ Documenti da Fornire</h2>
+    <div class="section">
+        <ul>
+            ${docs.map(doc => `<li>✅ ${doc}</li>`).join('')}
+        </ul>
+    </div>
+
+    <div class="alert" style="margin-top: 30px;">
+        <strong>📞 PROSSIMI PASSI</strong><br>
+        Il cliente verrà contattato dalla consulente creditizia per:<br>
+        • Definizione rata precisa e durata<br>
+        • Verifica documentazione<br>
+        • Eventuale richiesta di ulteriori informazioni o documenti
+    </div>
+
+    <div class="footer">
+        <p><strong>Documento generato il:</strong> ${new Date().toLocaleString('it-IT')}</p>
+        <p>Questo documento è da inviare al mediatore creditizio per l'elaborazione della pratica.</p>
+    </div>
+</body>
+</html>
+            `);
+
+            printWindow.document.close();
+
+            setTimeout(() => {
+                printWindow.print();
+            }, 500);
+        }
+
+        function getLabel(field, value) {
+            const labels = {
+                hasFinancing: { 'mai': 'Mai avuto', 'si': 'Sì', 'no': 'No (estinti)' },
+                recentFinancing: { 'no': 'No', 'ultimi6': 'Ultimi 6 mesi', 'oltre6': 'Oltre 6 mesi fa' }
+            };
+            return labels[field]?.[value] || value;
+        }
+
+        function getContractLabel(value) {
+            const labels = {
+                'indeterminato-privato': 'Tempo indeterminato - Privato',
+                'indeterminato-pubblico': 'Tempo indeterminato - Pubblico',
+                'determinato': 'Tempo determinato',
+                'autonomo': 'Lavoratore autonomo',
+                'libero-professionista': 'Libero professionista',
+                'pensionato': 'Pensionato'
+            };
+            return labels[value] || value;
+        }
+
+        function getMaritalLabel(value) {
+            const labels = {
+                'celibe-nubile': 'Celibe/Nubile',
+                'coniugato': 'Coniugato/a',
+                'divorziato': 'Divorziato/a',
+                'vedovo': 'Vedovo/a',
+                'separato': 'Separato/a'
+            };
+            return labels[value] || value;
+        }
+
+        function getHomeLabel(value) {
+            const labels = {
+                'proprieta': 'Proprietà',
+                'affitto': 'Affitto',
+                'altro': 'Altro'
+            };
+            return labels[value] || value;
+        }
+
+        // Aggiungi listener per check completamento su tutti gli input
+        document.addEventListener('input', checkCompletion);
+        document.addEventListener('change', checkCompletion);
+
+        // Init
+        checkCompletion();
+    </script>
+</body>
+</html>
